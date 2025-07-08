@@ -19,9 +19,9 @@ set -o pipefail
 set -o xtrace
 
 readonly arch='amd64'
-readonly version='1.24.2'
+readonly version='1.24.4'
 
-readonly checksum='68097bd680839cbc9d464a0edce4f7c333975e27a90246890e9f1078c7e702ad'
+readonly checksum='77e5da33bb72aeaef1ba4418b6fe511bc4d041873cbf82e5aa6318740df98717'
 
 readonly archive="go$version.linux-$arch.tar.gz"
 
