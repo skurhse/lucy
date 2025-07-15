@@ -4,7 +4,7 @@
 
 # 📚 lucy
 
-a userscript library for [Debian 13 Trixie](https://wiki.debian.org/DebianTrixie), with [Bash 5.2](https://savannah.gnu.org/projects/bash/), annotated with [PEP 350](https://peps.python.org/pep-0350/) codetags.
+a userscript library for [Debian 13 Trixie](https://wiki.debian.org/DebianTrixie) with [Bash 5.2](https://savannah.gnu.org/projects/bash/), annotated with [PEP 350](https://peps.python.org/pep-0350/) codetags.
 
 `lucy` is naive, idempotent and reversible.
 
