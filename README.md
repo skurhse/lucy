@@ -10,6 +10,7 @@ a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie) w
 
 ### toolchain:
 - `apt`
+- `git`
 - `gpg`
 
 ## Project Structure
