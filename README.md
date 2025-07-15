@@ -9,6 +9,7 @@
 |||
 | --- | --- |
 | apt |[packages.debian.org/trixie/apt](https://packages.debian.org/trixie/apt)|
+| bash |[packages.debian.org/trixie/bash](https://packages.debian.org/trixie/bash)|
 | gh |[github.com/cli/cli](https://github.com/cli/cli?tab=readme-ov-file)|
 | git |[packages.debian.org/trixie/git](https://packages.debian.org/trixie/git)|
 | gpg |[packages.debian.org/trixie/gnupg](https://packages.debian.org/trixie/gnupg)|
