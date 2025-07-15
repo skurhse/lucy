@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# REQ: Installs the GitHub CLI. <rbt 2023-04-26>
+# REQ: Installs the github command line interface. <rbt 2025-07>
 
 # SEE: https://github.com/cli/cli/blob/trunk/docs/install_linux.md <>
 
@@ -12,25 +12,30 @@ set -o noglob
 set -o nounset
 set -o xtrace
 
-readonly keyserver='https://cli.github.com/packages/githubcli-archive-keyring.gpg'
-readonly keyring='/etc/apt/keyrings/githubcli-archive-keyring.gpg'
-readonly fingerprint='2C6106201985B60E6C7AC87323F3D4EA75716059'
+keyserver='https://cli.github.com/packages/githubcli-archive-keyring.gpg'
+keyring='/etc/apt/keyrings/githubcli-archive-keyring.gpg'
+fingerprint='2C6106201985B60E6C7AC87323F3D4EA75716059'
 
 arch="$(dpkg --print-architecture)"
-readonly component='main'
-readonly distro='stable'
-readonly file='/etc/apt/sources.list.d/github-cli.list'
-readonly url='https://cli.github.com/packages'
+file='/etc/apt/sources.list.d/githubcli.sources'
 
-readonly entry="deb [arch=$arch signed-by=$keyring] $url $distro $component"
+entry="Types: deb
+URIs: https://cli.github.com/packages
+Suites: stable
+Components: main
+Enabled: yes
+Signed-By: $keyring
+Architectures: $arch"
 
-realpath=$(realpath "${BASH_SOURCE[0]}")
-dirname=$(dirname "$realpath")
-cd "$dirname"
+path=$(realpath "$BASH_SOURCE")
+dir=$(dirname "$path")
+cd "$dir"
 
 sudo gpg \
-  --no-default-keyring --keyring "gnupg-ring:$keyring" \
-  --keyserver "$keyserver" --recv-keys "$fingerprint" 
+  --no-default-keyring \
+  --keyring "gnupg-ring:$keyring" \
+  --keyserver "$keyserver" \
+  --recv-keys "$fingerprint" 
 
 # NOTE: Must be readable by sandbox user '_apt'. <>
 sudo chmod 444 "$keyring"
@@ -38,6 +43,6 @@ sudo chmod 444 "$keyring"
 sudo bash -c "echo ${entry@Q} > ${file@Q}"
 
 sudo apt-get update
-sudo apt-get install --assume-yes -- gh
+sudo apt-get install --assume-yes gh
 
 gh --version
