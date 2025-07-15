@@ -5,7 +5,6 @@
 # 📚 lucy
 
 `lucy` is a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie), written with [Bash 5.2](https://savannah.gnu.org/projects/bash/) and annotated with [PEP 350](https://peps.python.org/pep-0350/) codetags.
-,
 
 |||
 | --- | --- |
