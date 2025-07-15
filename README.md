@@ -8,6 +8,10 @@ a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie) w
 
 `lucy` is naive, idempotent and reversible.
 
+### toolchain:
+- `apt`
+- `gpg`
+
 ## Project Structure
 
 - apt
