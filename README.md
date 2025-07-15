@@ -4,7 +4,7 @@
 
 # 📚 lucy
 
-a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie): written w/ [Bash 5.2](https://savannah.gnu.org/projects/bash/) annotated w/ [PEP 350](https://peps.python.org/pep-0350/).
+a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie): written w/ [Bash 5.2](https://savannah.gnu.org/projects/bash/) and annotated w/ [PEP 350](https://peps.python.org/pep-0350/).
 ,
 #### tools:
 - `apt`
