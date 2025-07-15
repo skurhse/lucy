@@ -4,14 +4,19 @@
 
 # 📚 lucy
 
-a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie): written with [Bash 5.2](https://savannah.gnu.org/projects/bash/) and annotated with [PEP 350](https://peps.python.org/pep-0350/).
+`lucy` is a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie), written with [Bash 5.2](https://savannah.gnu.org/projects/bash/) and annotated with [PEP 350](https://peps.python.org/pep-0350/).
 ,
-#### tools:
-- `apt`
-- `gh`
-- `git`
-- `gpg`
-- `wget`
+
+|||
+| --- | --- |
+| apt |[packages.debian.org/trixie/apt](https://packages.debian.org/trixie/apt)|
+| gh |[](https://github.com/cli/cli?tab=readme-ov-file)|
+| gh |[|
+| gh |(|
+| git ||
+| gpg ||
+| wget ||
+
 ## Project Structure
 
 - apt
