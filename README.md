@@ -10,12 +10,10 @@
 |||
 | --- | --- |
 | apt |[packages.debian.org/trixie/apt](https://packages.debian.org/trixie/apt)|
-| gh |[](https://github.com/cli/cli?tab=readme-ov-file)|
-| gh |[|
-| gh |(|
-| git ||
-| gpg ||
-| wget ||
+| gh |[github.com/cli/cli](https://github.com/cli/cli?tab=readme-ov-file)|
+| git |[packages.debian.org/trixie/git](https://packages.debian.org/trixie/git)|
+| gpg |[packages.debian.org/trixie/gnupg](https://packages.debian.org/trixie/gnupg)|
+| wget |[packages.debian.org/trixie/wget](https://packages.debian.org/trixie/wget)|
 
 ## Project Structure
 
@@ -28,7 +26,7 @@
     - [docker-cli](https://docs.docker.com/engine/reference/commandline/cli/)
     - [docker-compose](https://docs.docker.com/compose/)
     - [docker-engine](https://docs.docker.com/engine/)
-  - github.com
+  - gith]ub.com
     - [github cli](https://cli.github.com/manual/)
   - hashicorp.com
     - [packer](https://developer.hashicorp.com/packer/docs)
