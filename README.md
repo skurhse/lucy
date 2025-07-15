@@ -10,10 +10,10 @@ a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie) w
 
 #### tools:
 - `apt`
-- `wget`
+- `gh`
 - `git`
 - `gpg`
-
+- `wget`
 ## Project Structure
 
 - apt
