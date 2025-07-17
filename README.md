@@ -48,6 +48,7 @@
   - [kind](https://kind.sigs.k8s.io/)
   - [golang](https://go.dev/doc/)
   - [minikube](https://minikube.sigs.k8s.io/docs/)
+  - [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#node-version-manager---)
 - utils
   - neovim
     - [neovim](https://neovim.io/doc/)
