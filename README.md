@@ -8,13 +8,13 @@
 
 |||
 | --- | --- |
-| apt |[packages.debian.org/trixie/apt](https://packages.debian.org/trixie/apt)|
-| bash |[packages.debian.org/trixie/bash](https://packages.debian.org/trixie/bash)|
+| apt |[debian.org/trixie/apt](https://packages.debian.org/trixie/apt)|
+| bash |[debian.org/trixie/bash](https://packages.debian.org/trixie/bash)|
 | gh |[github.com/cli/cli](https://github.com/cli/cli?tab=readme-ov-file)|
-| git |[packages.debian.org/trixie/git](https://packages.debian.org/trixie/git)|
-| gpg |[packages.debian.org/trixie/gnupg](https://packages.debian.org/trixie/gnupg)|
-| grep | [packages.debian.org/trixie/grep](https://packages.debian.org/trixie/grep)
-| wget |[packages.debian.org/trixie/wget](https://packages.debian.org/trixie/wget)|
+| git |[debian.org/trixie/git](https://packages.debian.org/trixie/git)|
+| gpg |[pebian.org/trixie/gnupg](https://packages.debian.org/trixie/gnupg)|
+| grep | [pebian.org/trixie/grep](https://packages.debian.org/trixie/grep)
+| wget |[debian.org/trixie/wget](https://packages.debian.org/trixie/wget)|
 
 ## Project Structure
 
