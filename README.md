@@ -6,14 +6,14 @@
 
 `lucy` is a userscript library for [Debian Trixie](https://wiki.debian.org/DebianTrixie), written in [Bash 5.2](https://savannah.gnu.org/projects/bash/) and annotated with [PEP 350](https://peps.python.org/pep-0350/) codetags.
 
-|||
+|Package||
 | --- | --- |
 | apt |[debian.org/trixie/apt](https://packages.debian.org/trixie/apt)|
 | bash |[debian.org/trixie/bash](https://packages.debian.org/trixie/bash)|
 | gh |[github.com/cli/cli](https://github.com/cli/cli?tab=readme-ov-file)|
 | git |[debian.org/trixie/git](https://packages.debian.org/trixie/git)|
-| gpg |[pebian.org/trixie/gnupg](https://packages.debian.org/trixie/gnupg)|
-| grep | [pebian.org/trixie/grep](https://packages.debian.org/trixie/grep)
+| gpg |[debian.org/trixie/gnupg](https://packages.debian.org/trixie/gnupg)|
+| grep | [debian.org/trixie/grep](https://packages.debian.org/trixie/grep)
 | wget |[debian.org/trixie/wget](https://packages.debian.org/trixie/wget)|
 
 ## Project Structure
