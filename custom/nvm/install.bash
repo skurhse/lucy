@@ -20,8 +20,8 @@ dir=~/'.nvm'
 profile=~/'.profile'
 repo='https://github.com/nvm-sh/nvm.git'
 
-rm --recursive --force "$dir"
-mkdir --parents "$dir"
+rm -rf "$dir"
+mkdir -p "$dir"
 cd "$dir"
 
 git init .
@@ -49,8 +49,3 @@ set +o xtrace
 source "$dir/nvm.sh"
 nvm --version
 set -o xtrace
-
-while read -r line 
-do
-  
-done <
