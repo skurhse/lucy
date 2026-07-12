@@ -20,6 +20,6 @@ readonly src_dir
 src_file="$src_dir/init.lua" 
 readonly src_file
 
-mkdir --parents --verbose "$cfg_dir"
+mkdir -pv "$cfg_dir"
 
 ln -fs "$src_file" "$cfg_dir"
