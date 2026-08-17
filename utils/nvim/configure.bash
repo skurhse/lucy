@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-# REQ: Installs the neovim init.lua symlink. <eris 2023-05-29>
+# REQ: Installs init.lua via symlink. <eris>
+
 # SEE: https://neovim.io/doc/user/lua-guide.html <> 
 
 set +o braceexpand
+
 set -o errexit
 set -o noglob
 set -o noclobber
@@ -11,9 +13,10 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-readonly cfg_dir=~/'.config/nvim/'
+readonly cfg_dir=~/.config/nvim/
 
 src_dir=$(dirname "$BASH_SOURCE")
+
 src_dir=$(realpath "$src_dir")
 readonly src_dir
 

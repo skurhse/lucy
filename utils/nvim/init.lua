@@ -1,68 +1,77 @@
--- REQ: Configures neovim using lua. <skr 2023-04-30>
+-- REQ: Configures nvim with lua. <>
 
 -- SEE: https://neovim.io/doc/user/lua-guide.html <>
 
+local l = vim.lsp
+local g = vim.g
+local o = vim.o
+
+local add = vim.pack.add
+local cmd = vim.cmd
+local key = vim.keymap.set
+
 local call = vim.call
-local cmd  = vim.cmd
-local set  = vim.o
-local gbl  = vim.g
 
--- SEE: https://github.com/junegunn/vim-plug <>
-cmd [[
-  let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-  if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
-]]
-local plug = vim.fn['plug#']
+g.mapleader = " "
 
-call('plug#begin')
+o.tabstop = 2
+o.shiftwidth = 2
+o.softtabstop = 2
+o.expandtab = true
 
--- SEE: https://github.com/carlsmedstad/vim-bicep <>
-plug('carlsmedstad/vim-bicep')
+o.number = true
+o.relativenumber = true
 
--- SEE: https://github.com/hashivim/vim-terraform <>
-plug('hashivim/vim-terraform')
-gbl.terraform_align = 1
-gbl.terraform_fmt_on_save = 1
+o.wrap = false
 
--- SEE: https://github.com/neovim/nvim-lspconfig <>
-plug('neovim/nvim-lspconfig')
+o.swapfile = true
 
--- SEE: https://github.com/nvim-treesitter/nvim-treesitter <>
+key('n', '<leader>o', ':update<CR> :source<CR>')
+key('n', '<leader>w ', ':write<CR>')
+key('n', '<leader>lf', l.buf.format)
+
+key('n', '<space>e', vim.diagnostic.open_float)
+key('n', '[d', vim.diagnostic.goto_prev)
+key('n', ']d', vim.diagnostic.goto_next)
+key('n', '<space>q', vim.diagnostic.setloclist)
+
 -- HACK: Using special syntax to workaround reserved word attribute. <>
-local treesitter_options = {}
-treesitter_options["do"] = ':TSUpdate'
-plug('nvim-treesitter/nvim-treesitter', treesitter_options)
+local treesitter_options = {} treesitter_options["do"] = ':TSUpdate'
 
--- SEE: https://github.com/psf/black <>
-plug('psf/black', {branch = 'stable'})
+add({
+  {src = "https://github.com/fatih/vim-go"},
+  {src = "https://github.com/hrsh7th/cmp-buffer"},
+  {src = "https://github.com/hrsh7th/cmp-cmdline"},
+  {src = "https://github.com/hrsh7th/cmp-nvim-lsp"},
+  {src = "https://github.com/hrsh7th/cmp-path"},
+  {src = "https://github.com/hrsh7th/cmp-vsnip"},
+  {src = "https://github.com/hrsh7th/nvim-cmp"},
+  {src = "https://github.com/hrsh7th/vim-vsnip"},
+  {src = "https://github.com/neovim/nvim-lspconfig"},
+  {src = "https://github.com/nvim-lua/plenary.nvim"},
+  {src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.x"},
+  {src = "https://github.com/nvim-treesitter/nvim-treesitter"},
+  {src = "https://github.com/vague2k/vague.nvim"}
+})
 
--- SEE: https://github.com/vim-crystal/vim-crystal <>
-plug('vim-crystal/vim-crystal')
+l.enable({
+  "lua_ls",
+  "gopls"
+})
 
--- SEE: https://github.com/fatih/vim-go <>
--- HACK: Using special syntax to workaround reserved word attribute. <>
-plug('fatih/vim-go')
-gbl.go_def_mapping_enabled = 0
+cmd("colorscheme vague")
+cmd(":highlight statusline guibg=NONE")
 
--- SEE: https://github.com/hrsh7th/nvim-cmp <>
-plug('hrsh7th/cmp-nvim-lsp')
-plug('hrsh7th/cmp-buffer')
-plug('hrsh7th/cmp-path')
-plug('hrsh7th/cmp-cmdline')
-plug('hrsh7th/nvim-cmp')
-plug('hrsh7th/cmp-vsnip')
-plug('hrsh7th/vim-vsnip')
+g.go_def_mapping_enabled = 0
 
--- SEE: https://github.com/nvim-telescope/telescope.nvim <>
-plug('nvim-lua/plenary.nvim')
-plug('nvim-telescope/telescope.nvim', {branch = '0.1.x'})
+for _, key in pairs({"<Up>", "<Down>", "<Left>", "<Right>"}) do
+  for _, mode in pairs({"n", "v"}) do
+    vim.api.nvim_set_keymap(mode, key, "<Nop>", {}) end
+end
 
-call('plug#end')
+-- NOTE: Terminal-mode bindings <rbt>
+vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 
--- SEE: https://github.com/hrsh7th/nvim-cmp <>
 local cmp = require('cmp')
 
 cmp.setup({
@@ -124,67 +133,11 @@ cmp.setup.cmdline(':', {
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
--- SEE: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md <>
-local lsp = require('lspconfig')
-
-lsp.bicep.setup({
-  cmd = { "dotnet", "/usr/local/bin/bicep-langserver/Bicep.LangServer.dll" };
-
-})
-
-lsp.crystalline.setup({
-  capabilities = capabilities
-})
-
-lsp.eslint.setup({
-  capabilities = capabilities
-})
-
 -- SEE: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#custom-configuration <>
-lsp.gopls.setup({
-  cmd = {"gopls", "serve"},
-  filetypes = {"go", "gomod"},
-  root_dir = lsp.util.root_pattern("go.work", "go.mod", ".git"),
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
-      },
-      staticcheck = true,
-    },
-  },
-  capabilities = capabilities
-})
-
-lsp.omnisharp.setup({
-  cmd = { "dotnet", "/usr/local/bin/omnisharp-roslyn/OmniSharp.dll" };
-  capabilities = capabilities
-})
-
-lsp.terraformls.setup({
-  capabilities = capabilities
-})
-
-lsp.tflint.setup({
-  capabilities = capabilities
-})
-
-lsp.pylsp.setup({
-  settings = {
-    pylsp = {
-      plugins = {
-        pycodestyle = {
-          -- ignore = {'W391'},
-          maxLineLength = 100
-        }
-      }
-    }
-  },
-  capabilities = capabilities
-})
 
 -- SEE: https://github.com/nvim-treesitter/nvim-treesitter <>
-require 'nvim-treesitter.configs'.setup({
+
+require 'nvim-treesitter.config'.setup({
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
   ensure_installed = { "bash", "vimdoc", "go", "lua", "vim" },
 
@@ -199,11 +152,6 @@ require 'nvim-treesitter.configs'.setup({
     enable = true
   }
 })
-
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -231,7 +179,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- SEE: https://github.com/nvim-telescope/telescope.nvim <>
 local telescope = require('telescope')
 
 telescope.setup({
@@ -245,26 +192,7 @@ telescope.setup({
 })
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
--- NOTE: disable arrow keys. <>
-keys = {"<Up>", "<Down>", "<Left>", "<Right>"}
-modes = {"n", "v"}
-
-for _, key in pairs(keys) do
-  for _, mode in pairs(modes) do
-    vim.api.nvim_set_keymap(mode, key, "<Nop>", {})
-  end
-end
-
--- NOTE: Set indentation options. <>
-set.tabstop = 2
-set.shiftwidth = 2
-set.softtabstop = 2
-set.expandtab = true
-
--- NOTE: Terminal-mode bindings <rbt>
-vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
+key('n', '<leader>ff', builtin.find_files, {})
+key('n', '<leader>fg', builtin.live_grep, {})
+key('n', '<leader>fb', builtin.buffers, {})
+key('n', '<leader>fh', builtin.help_tags, {})
