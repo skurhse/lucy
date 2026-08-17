@@ -2,6 +2,7 @@
 
 -- SEE: https://neovim.io/doc/user/lua-guide.html <>
 
+local d = vim.diagnostic
 local l = vim.lsp
 local g = vim.g
 local o = vim.o
@@ -23,20 +24,21 @@ o.number = true
 o.relativenumber = true
 
 o.wrap = false
-
+o.signcolumn = "yes"
+o.winborder = "rounded"
+o.termguicolors = true
 o.swapfile = true
 
-key('n', '<leader>o', ':update<CR> :source<CR>')
-key('n', '<leader>w ', ':write<CR>')
 key('n', '<leader>lf', l.buf.format)
 
-key('n', '<space>e', vim.diagnostic.open_float)
-key('n', '[d', vim.diagnostic.goto_prev)
-key('n', ']d', vim.diagnostic.goto_next)
-key('n', '<space>q', vim.diagnostic.setloclist)
+key('n', '<leader>o', ':update<CR> :source<CR>')
+key('n', '<leader>w', ':write<CR>')
+key('n', '<leader>q', ':quit<CR>')
 
--- HACK: Using special syntax to workaround reserved word attribute. <>
-local treesitter_options = {} treesitter_options["do"] = ':TSUpdate'
+key('n', '<space>e', d.open_float)
+key('n', '[d',       d.goto_prev)
+key('n', ']d',       d.goto_next)
+key('n', '<space>q', d.setloclist)
 
 add({
   {src = "https://github.com/fatih/vim-go"},
@@ -58,6 +60,8 @@ l.enable({
   "lua_ls",
   "gopls"
 })
+
+key('n', '<leader>lf', l.buf.format)
 
 cmd("colorscheme vague")
 cmd(":highlight statusline guibg=NONE")
@@ -135,48 +139,20 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- SEE: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#custom-configuration <>
 
--- SEE: https://github.com/nvim-treesitter/nvim-treesitter <>
-
-require 'nvim-treesitter.config'.setup({
-  -- A list of parser names, or "all" (the four listed parsers should always be installed)
-  ensure_installed = { "bash", "vimdoc", "go", "lua", "vim" },
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-  highlight = {
-    enable = true
-  }
+require('nvim-treesitter.config').install({
+  "bash",
+  "go",
+  "java",
+  "javascript",
+  "lua",
+  "rust",
+  "vim",
+  "vimdoc",
 })
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-    local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
-  end,
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '<filetype>' },
+  callback = function() vim.treesitter.start() end,
 })
 
 local telescope = require('telescope')
