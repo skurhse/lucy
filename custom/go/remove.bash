@@ -20,7 +20,7 @@ readonly profile=~/'.bash_profile'
 
 export=(export "PATH=\"\$PATH:$path/bin\"")
 
-sudo rm --recursive --force "$path"
+sudo rm -rf "$path"
 
 safe=$(sed 's|/|\\&|g' <<<${export[*]})
 
