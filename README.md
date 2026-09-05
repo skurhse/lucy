@@ -4,7 +4,7 @@
 
 # 📚 lucy
 
-`lucy` is a userscript library written in [Bash 5.2](https://savannah.gnu.org/projects/bash/).
+`lucy` is a userscript library written in [Bash 5.3](https://savannah.gnu.org/projects/bash/).
 
 - licensed with [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/).
 - annotated with [PEP 350](https://peps.python.org/pep-0350/) codetags.
