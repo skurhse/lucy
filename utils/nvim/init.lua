@@ -26,7 +26,7 @@ o.relativenumber = true
 o.wrap = false
 o.signcolumn = "yes"
 o.winborder = "rounded"
-o.termguicolors = true
+o.termguicolors = false
 o.swapfile = true
 
 key('n', '<leader>lf', l.buf.format)
@@ -63,7 +63,7 @@ l.enable({
 
 key('n', '<leader>lf', l.buf.format)
 
-cmd("colorscheme vague")
+cmd("colorscheme catppuccin")
 cmd(":highlight statusline guibg=NONE")
 
 g.go_def_mapping_enabled = 0
@@ -73,7 +73,7 @@ for _, key in pairs({"<Up>", "<Down>", "<Left>", "<Right>"}) do
     vim.api.nvim_set_keymap(mode, key, "<Nop>", {}) end
 end
 
--- NOTE: Terminal-mode bindings <rbt>
+-- NOTE: Terminal-mode bindings <>
 vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 
 local cmp = require('cmp')
@@ -139,7 +139,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- SEE: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#custom-configuration <>
 
-require('nvim-treesitter.config').install({
+require('nvim-treesitter').install({
   "bash",
   "go",
   "java",

@@ -15,27 +15,24 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-if type dpkg
+if type uname 
 then
-  arch=$(dpkg --print-architecture)
-
-  case $arch in
-    amd64)
-      arch=x86_64
-      ;;
-    arm64)
-      ;;
-    *)
-      exit 
-      ;;
-  esac
+  arch=$(uname -m)
 else
-  if type uname 
-  then
-    arch=$(uname -m)
-  else
-    exit $?
-  fi
+  exit $?
+fi
+
+readonly export=(export "PATH=\"\$PATH\":/opt/nvim-linux-$arch/bin")
+
+if grep \
+  --quiet \
+  --line-regexp \
+  --fixed-strings \
+-- "${export[*]}" ~/.bash_profile
+then
+  safe=$(sed 's|/|\\&|g' <<<${export[*]})
+
+  sed --in-place "/^$safe$/d" ~/.bash_profile
 fi
 
 sudo rm -rf "/opt/nvim-linux-$arch/"

@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# REQ: Installs neovim nightly. <rbt 2026-08-15>
+# REQ: Installs neovim nightly. <rbt 2026-08>
 
 # SEE: https://github.com/neovim/neovim/blob/master/INSTALL.md#linux <>
 
@@ -31,30 +31,16 @@ else
   exit $?
 fi
 
-if type dpkg
+if type uname 
 then
-  arch=$(dpkg --print-architecture)
-
-  case $arch in
-    amd64)
-      arch=x86_64
-      ;;
-    arm64)
-      ;;
-    *)
-      exit 
-      ;;
-  esac
+  arch=$(uname -m)
 else
-  if type uname 
-  then
-    arch=$(uname -m)
-  else
-    exit $?
-  fi
+  exit $?
 fi
 
 readonly archive="nvim-linux-$arch.tar.gz"
+
+readonly export=(export "PATH=\"\$PATH\":/opt/nvim-linux-$arch/bin")
 
 cd /tmp
 
@@ -78,7 +64,6 @@ sudo tar \
   -C /opt \
   -xzf "nvim-linux-$arch.tar.gz" \
 
-readonly export=(export "PATH=\"\$PATH\":/opt/nvim-linux-$arch/bin")
 
 if ! grep \
   --quiet \
