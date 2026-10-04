@@ -4,35 +4,60 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# REQ: Bash profile for macOS Catalina 10.5.8. <eris>
+# REQ: Bash profile for macOS Catalina 10.5.8. <Jannah 2026-10-03>
 
-function setup_brew {
+function _sdk {
+  # NOTE: Xcode 12.4 <>
+  readonly SDKVERS='11.1'
+
+  export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX$SDKVERS.sdk"
+}
+_sdk; unset -f _sdk
+
+function _perl {
+  # NOTE:
+  # - `PERl5LIB`
+  # - `PERL_MM_OPT`/`PERL_MB_OPT`
+  # - `PERL_LOCAL_LIB_ROOT`
+  # <>
+  eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+}
+_perl; unset -f _perl
+
+function _brew {
 	local product_version
 	product_version=$(sw_vers -productVersion)
 	
-	if [[ $? -eq 0 && -n $product_version ]]; then 
+	if [[ $? -eq 0 && -n $product_version ]]
+  then 
 		export HOMEBREW_MACOS_VERSION="$product_version"
 	fi
 
 	export HOMEBREW_NO_AUTO_UPDATE=1
 	export HOMEBREW_NO_INSTALL_FROM_API=1
 
+  if [[ -n "$SDKROOT" ]]; then
+    export HOMEBREW_SDKROOT="$SDKROOT"
+  fi
+
 	if command -v bat > /dev/null
 	then
 		export HOMEBREW_BAT=1
-		if [[ -z "$BAT_CONFIG_PATH" ]]
+		if [[ -n "$BAT_CONFIG_PATH" ]]
 		then
 			export HOMEBREW_BAT_CONFIG_PATH="$BAT_CONFIG_PATH"
 		fi
 	fi
 }
-setup_brew
+_brew; unset -f _brew
 
-function setup_clang {
+function _clang {
+  export MACOSX_DEPLOYMENT_TARGET='10.15'
+
 	local -ar flags=(
-		'-march=nehalem'
-		'-macosx-version-min=10.15'
-		'isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk'
+		# '-march=nehalem'
+		'-mmacosx-version-min=10.15'
+		'-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk'
 	)
 
 	local -ar c_flags=(
@@ -53,15 +78,18 @@ function setup_clang {
 	# Linker
 	export LDFLAGS="${flags[*]}"
 }
-setup_clang
+_clang; unset -f _clang
 
-export PS1='\W \u$ '
+_term() {
+  export PS1='\W$ '
 
-export HISTSIZE=32768
-export HISTFILESIZE=32738
-export HISTTIMEFORMAT='%F %T'
+  export HISTSIZE=32768
+  export HISTFILESIZE=32738
+  export HISTTIMEFORMAT='%F %T'
 
-shopt -s histappend
+  shopt -s histappend
+}
+_term; unset -f _term
 
 _init() {
 
@@ -115,7 +143,7 @@ _init() {
 		'maintenance' 'merge' 'merge-base' 'mv'
 		'notes'
 		'pull' 'push'
-		'range-diff' 'rebase' 'reset' 'remote' 'restore' 'revert'
+		'range-diff' 'rebase' 'remote' 'restore' 'revert'
 		'reflog' 'refs' 'rev-parse' 'rev-list'
 		'show' 'stash' 'status' 'submodule'
 		'tag'
@@ -132,9 +160,8 @@ _init() {
 	local -r ggit_aliases=(
 		'clean'
 		'diff'
-		'grep'
-		'help'
-		'rm'
+		'grep' 'help'
+		'reset' 'rm'
 		'switch'
 		'version'
 	)
@@ -155,5 +182,4 @@ _init() {
 	done
   unset s
 }
-_init
-unset -f _init
+_init; unset -f _init
