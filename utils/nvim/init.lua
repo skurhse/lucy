@@ -141,6 +141,8 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require('nvim-treesitter').install({
   "bash",
+  "c",
+  "perl",
   "go",
   "java",
   "javascript",
